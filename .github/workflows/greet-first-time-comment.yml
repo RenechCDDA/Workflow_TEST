@@ -26,8 +26,9 @@ jobs:
 
           echo "Debug: $commenter with $comment_count total comments, including checked comment."
           echo "comment_count=$comment_count" >> $GITHUB_OUTPUT
+          echo "commenter=$commenter" >> $GITHUB_OUTPUT
 
       - name: Reply to commenters with no previous comments
         if: steps.pr-check.outputs.comment_count <= 50
         run: |
-          gh pr comment $PR_NUMBER --body "Hi new commenter!"
+          gh pr comment $PR_NUMBER --body "Hi new commenter $commenter! Pinging you with @$commenter! Or possibly $steps.pr-check.outputs.commenter"

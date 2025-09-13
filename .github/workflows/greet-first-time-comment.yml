@@ -1,0 +1,32 @@
+name: Greet new commenters
+
+on:
+  issue_comment:
+    types:
+      - created
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.issue.number }}
+
+jobs:
+  triage:
+    permissions:
+       issues: write
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if user has any existing PR comments in this repository
+        id: pr-comment-check
+        run: |
+          commenter="${{ github.event.comment.user.login }}"
+          echo "Checking comment counts for... $commenter"
+          comment_count=$(gh search prs --owner=RenechCDDA --repo=Workflow_TEST --commenter $commenter --json id | jq 'length')
+
+          echo "Debug: $commenter with $comment_count total comments, including checked comment."
+          echo "comment_count=$comment_count" >> $GITHUB_OUTPUT
+
+      - name: Reply to commenters with no previous comments
+        if: steps.pr-check.outputs.comment_count <= 50
+        run: |
+          gh pr comment $PR_NUMBER --body "Hi new commenter!"

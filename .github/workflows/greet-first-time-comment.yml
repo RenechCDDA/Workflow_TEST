@@ -32,4 +32,4 @@ jobs:
         run: |
           # I have no earthly idea how to pass the commenter on from the previous run (I have tried), so let's just re-acquire it.
           commenter_name="${{ github.event.comment.user.login }}"
-          gh pr comment $PR_NUMBER --body "Hi new commenter $commenter_name! Pinging you with @$commenter_name!"
+          gh pr comment $PR_NUMBER --body "Hi @$commenter_name, welcome to CleverRaven! We see that this is your first time commenting here. Check out [how development works](some_document.md) and be sure to follow the [code of conduct](docs/code_of_conduct.md)! \n\n We hope to see you around!"

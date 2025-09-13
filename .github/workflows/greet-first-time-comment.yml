@@ -12,7 +12,7 @@ env:
 jobs:
   triage:
     permissions:
-       pull_requests: write
+       pull-requests: write
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:

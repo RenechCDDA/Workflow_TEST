@@ -23,8 +23,8 @@ jobs:
           set -x
           commenter="${{ github.event.comment.user.login }}"
           echo "Debug: Checking comment counts for... $commenter"
-          comment_count=$(gh search prs --owner=RenechCDDA --repo=Workflow_TEST --commenter $commenter --json id | jq 'length')
-          num_PRs_authored=$(gh search prs --owner=RenechCDDA --repo=Workflow_TEST --author $commenter --json id | jq 'length')
+          comment_count=$(gh search prs --repo=RenechCDDA/=Workflow_TEST --commenter $commenter --json id | jq 'length')
+          num_PRs_authored=$(gh search prs --repo==RenechCDDA/Workflow_TEST --author $commenter --json id | jq 'length')
           
           num_times_commented=$(gh pr view $PR_NUMBER --json comments --jq "[.comments.[].author.login | match(\"$commenter\")] | length")
 

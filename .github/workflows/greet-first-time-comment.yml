@@ -20,6 +20,7 @@ jobs:
       - name: Check if user has any existing PR comments in this repository
         id: pr-comment-check
         run: |
+          set -x
           commenter="${{ github.event.comment.user.login }}"
           echo "Debug: Checking comment counts for... $commenter"
           comment_count_all_PR=$(gh search prs --owner=RenechCDDA --repo=Workflow_TEST --commenter $commenter --json id | jq 'length')

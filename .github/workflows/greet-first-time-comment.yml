@@ -25,7 +25,7 @@ jobs:
           comment_count_all_PR=$(gh search prs --owner=RenechCDDA --repo=Workflow_TEST --commenter $commenter --json id | jq 'length')
           num_PRs_authored=$(gh search prs --owner=RenechCDDA --repo=Workflow_TEST --author $commenter --json id | jq 'length')
           
-          num_times_commented=$(gh pr view $PR_NUMBER --json comments --jq '--arg commenter $commenter .comments.[].author.login | match($commenter)')
+          num_times_commented=$(gh pr view $PR_NUMBER --json comments | jq --arg commenter $commenter '.comments.[].author.login | match($commenter)')
 
           echo "Debug: $commenter with $comment_count_all_PR PRs commented on, including checked comment. PR contains $num_times_commented comments from them. They have authored $num_PRs_authored PRs in CleverRaven."
           echo "comment_count_all_PR=$comment_count_all_PR" >> $GITHUB_OUTPUT
